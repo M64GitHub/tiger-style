@@ -40,7 +40,7 @@ Quick validation before committing code.
 ## Memory
 
 - [ ] **No stored allocator**: Passed as parameter
-- [ ] **No stored Io**: Passed as parameter (Client exception)
+- [ ] **No stored Io**: Passed as parameter
 - [ ] **In-place init**: Large structs init via pointer
 
 ## Quick Severity Guide

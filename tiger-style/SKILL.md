@@ -36,7 +36,7 @@ Coding style from TigerBeetle optimized for **Safety > Performance > DX**.
 |------|------------|--------------|
 | Line length | 100 columns | **80 columns** |
 | Assertions | 2+ per function | Same |
-| Memory in structs | Never store allocator | Same + never store Io (with Client exception) |
+| Memory in structs | Never store allocator | Same + never store Io |
 
 ## Analysis Report Format
 

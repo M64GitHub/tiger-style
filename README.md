@@ -171,7 +171,7 @@ See [`tiger-style/PERFORMANCE.md`](tiger-style/PERFORMANCE.md) for full rules wi
 | Indentation | 4 spaces |
 | Comments | Full sentences explaining *why*, not *what* |
 | Struct order | Fields, then types, then methods |
-| No stored allocator/Io | Pass as parameters (Client exception for Io) |
+| No stored allocator/Io | Pass as parameters |
 
 See [`tiger-style/DX.md`](tiger-style/DX.md) for full rules with code examples.
 
@@ -190,7 +190,6 @@ Fix CRITICAL violations immediately. Resolve MAJOR violations before merge. MINO
 | Rule | TigerBeetle Standard | This Skill |
 |------|---------------------|------------|
 | Line length | 100 columns | **80 columns** |
-| Stored Io | Never | Same, with documented Client exception |
 
 All other rules follow the [original TigerStyle guide](https://github.com/tigerbeetle/tigerbeetle/blob/main/docs/TIGER_STYLE.md).
 

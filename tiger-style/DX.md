@@ -205,7 +205,7 @@ const offset = base_offset + header_size; // accounts for header...
 
 ### Never Store Allocator or Io
 
-Pass as parameters (exception: Client stores Io for ergonomics):
+Pass as parameters:
 
 ```zig
 // GOOD
