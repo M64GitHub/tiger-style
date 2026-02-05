@@ -1,0 +1,16 @@
+{
+  "name": "tiger-style",
+  "owner": {
+    "name": "M64GitHub"
+  },
+  "metadata": {
+    "description": "TigerBeetle-style coding discipline for Zig projects"
+  },
+  "plugins": [
+    {
+      "name": "tiger-style",
+      "source": ".",
+      "description": "TigerBeetle-style coding discipline for safety-critical Zig projects"
+    }
+  ]
+}

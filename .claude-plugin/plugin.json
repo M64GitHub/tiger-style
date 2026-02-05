@@ -1,0 +1,11 @@
+{
+  "name": "tiger-style",
+  "description": "TigerBeetle-style coding discipline for safety-critical Zig projects",
+  "version": "1.0.0",
+  "author": {
+    "name": "M64GitHub"
+  },
+  "repository": "https://github.com/M64GitHub/tiger-style",
+  "keywords": ["zig", "tigerbeetle", "style-guide", "safety"],
+  "skills": "./"
+}
