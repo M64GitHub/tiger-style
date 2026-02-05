@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "tiger-style",
-      "source": ".",
+      "source": "./",
       "description": "TigerBeetle-style coding discipline for safety-critical Zig projects"
     }
   ]

@@ -21,6 +21,15 @@ This skill embeds TigerStyle rules directly into your coding workflow. Claude ap
 - **Severity classification** - CRITICAL / MAJOR / MINOR for prioritized fixes
 - **Pre-submit checklist** - built-in validation covering safety, naming, formatting, and memory
 
+## Install as Plugin
+
+```bash
+/plugin marketplace add M64GitHub/tiger-style
+/plugin install tiger-style@tiger-style
+```
+
+The skill is then available as `/tiger-style:tiger-style` in all your projects.
+
 ## Usage
 
 ### Write new code with TigerStyle guidance
@@ -90,7 +99,7 @@ Produces a structured report:
 
 Runs a fast scan and reports only violations, skipping aligned patterns and gray areas. Useful as a pre-commit sanity check.
 
-## Installation
+## Manual Installation
 
 Clone or download this repository, then copy the `tiger-style/` skill directory to one of the locations below.
 
