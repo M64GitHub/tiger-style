@@ -2,6 +2,9 @@
 
 A [Claude Code](https://claude.ai/code) skill that brings [TigerBeetle's TigerStyle](https://github.com/tigerbeetle/tigerbeetle/blob/main/docs/TIGER_STYLE.md) coding discipline to your Zig projects. Get real-time guidance, analysis reports, and violation checks for safety-critical code - all from a `/tiger-style` slash command. Code examples and stdlib references are verified against **Zig 0.16**.
 
+<img width="1903" height="248" alt="image" src="https://github.com/user-attachments/assets/e7572bd2-0781-41e1-9fe7-7fcc882a9535" />
+
+
 ## Why
 
 TigerBeetle's engineering style guide is one of the most rigorous approaches to writing reliable systems software. But style guides only work when they're actively applied during development, not reviewed after the fact.
