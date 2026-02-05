@@ -27,8 +27,9 @@ This skill embeds TigerStyle rules directly into your coding workflow. Claude ap
 /plugin marketplace add M64GitHub/tiger-style
 /plugin install tiger-style@tiger-style
 ```
+Restart Claude Code to take effect.  
 
-The skill is then available as `/tiger-style:tiger-style` in all your projects.
+The skill is then available as `/tiger-style`.
 
 ## Usage
 
