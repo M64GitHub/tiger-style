@@ -242,17 +242,19 @@ Always include units/qualifiers to prevent confusion.
 
 ### Explicit Division
 
-Use Zig's explicit division builtins to show rounding intent:
+Use Zig's explicit division to show rounding intent:
 
 ```zig
 // GOOD: Intent is clear
 const pages = @divExact(bytes, PAGE_SIZE);
-const blocks = div_ceil(bytes, BLOCK_SIZE);
 const index = @divFloor(offset, ENTRY_SIZE);
+const blocks = std.math.divCeil(u64, bytes, BLOCK_SIZE);
 
 // BAD: Rounding behavior is implicit
 const pages = bytes / PAGE_SIZE;
 ```
+
+Note: `@divExact` and `@divFloor` are builtins (2 args). `std.math.divCeil` is a stdlib function (3 args: type, numerator, denominator).
 
 ### Options Struct for Same-Typed Parameters
 

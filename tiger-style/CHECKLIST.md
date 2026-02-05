@@ -41,7 +41,7 @@ Quick validation before committing code.
 
 ## Bug Prevention
 
-- [ ] **Explicit division**: Using `@divExact`/`@divFloor`/`div_ceil`
+- [ ] **Explicit division**: Using `@divExact`/`@divFloor`/`std.math.divCeil`
 - [ ] **Off-by-one**: index vs count vs size distinguished
 - [ ] **Options struct**: Same-typed params use named struct
 - [ ] **Large args by ref**: >16 byte args passed as `*const`

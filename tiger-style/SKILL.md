@@ -34,7 +34,7 @@ When invoked with `analyze` and a file path:
 1. Read the file specified in `$ARGUMENTS` (the path after `analyze`).
 2. Read [SAFETY.md](SAFETY.md), [PERFORMANCE.md](PERFORMANCE.md), and [DX.md](DX.md) for the complete rule set.
 3. Produce a structured report following the template in [REPORT_FORMAT.md](REPORT_FORMAT.md).
-4. Check every rule against the file. Be thorough — scan for all violation types, not just obvious ones.
+4. Check every rule against the file. Be thorough - scan for all violation types, not just obvious ones.
 5. Group aligned patterns by category. Group violations by severity. Note gray areas with reasoning.
 
 ### Check Mode (`/tiger-style check`)
@@ -43,15 +43,15 @@ When invoked with `check`:
 
 1. Scan the current file, staged changes, or recently modified Zig files.
 2. Report only violations, grouped by severity (CRITICAL first, then MAJOR, then MINOR).
-3. Skip aligned patterns and gray areas — keep output brief.
+3. Skip aligned patterns and gray areas - keep output brief.
 4. Use the format: `SEVERITY | location | rule | issue` (one line per violation).
 
 ## Workflow
 
 After analysis or check, guide the user through fixing:
 
-1. Fix CRITICAL violations first — these are safety risks.
-2. Fix MAJOR violations — these affect maintainability.
+1. Fix CRITICAL violations first - these are safety risks.
+2. Fix MAJOR violations - these affect maintainability.
 3. MINOR violations are worth fixing but should not block progress.
 4. Run `/tiger-style check` to verify fixes.
 5. Repeat until clean.

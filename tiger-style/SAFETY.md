@@ -83,7 +83,7 @@ if (valid) {
     report_error();
 }
 
-// BAD: Missing else — what happens when invalid?
+// BAD: Missing else - what happens when invalid?
 if (valid) {
     process();
 }
@@ -102,7 +102,7 @@ if (ready) {
 // GOOD: Single-line assertion implication (exception)
 if (is_leader) assert(has_quorum);
 
-// BAD: No braces — invites "goto fail" mistakes
+// BAD: No braces - invites "goto fail" mistakes
 if (ready)
     send();
 ```
@@ -183,11 +183,12 @@ while (true) {
 ### Queues Have Fixed Upper Bounds
 
 ```zig
-// GOOD: Fixed capacity
-var queue: BoundedQueue(Message, 1024) = .{};
+// GOOD: Fixed capacity, statically bounded
+var queue: [1024]Message = undefined;
+var queue_count: u32 = 0;
 
-// BAD: Unbounded
-var queue: ArrayList(Message) = .{};
+// BAD: Unbounded, dynamically growing
+var queue: std.ArrayList(Message) = .{};
 ```
 
 ## Memory

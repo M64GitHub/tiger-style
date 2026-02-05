@@ -1,6 +1,6 @@
 # tiger-style
 
-A [Claude Code](https://claude.ai/code) skill that brings [TigerBeetle's TigerStyle](https://github.com/tigerbeetle/tigerbeetle/blob/main/docs/TIGER_STYLE.md) coding discipline to your Zig projects. Get real-time guidance, analysis reports, and violation checks for safety-critical code — all from a `/tiger-style` slash command.
+A [Claude Code](https://claude.ai/code) skill that brings [TigerBeetle's TigerStyle](https://github.com/tigerbeetle/tigerbeetle/blob/main/docs/TIGER_STYLE.md) coding discipline to your Zig projects. Get real-time guidance, analysis reports, and violation checks for safety-critical code - all from a `/tiger-style` slash command. Code examples and stdlib references are verified against **Zig 0.16**.
 
 ## Why
 
@@ -12,11 +12,11 @@ This skill embeds TigerStyle rules directly into your coding workflow. Claude ap
 
 ## What You Get
 
-- **Writing guidance** — TigerStyle rules applied as you write new Zig code
-- **Full analysis reports** — structured breakdown of aligned patterns, violations, and gray areas
-- **Quick violation checks** — fast pass to catch problems before commit
-- **Severity classification** — CRITICAL / MAJOR / MINOR for prioritized fixes
-- **Pre-submit checklist** — built-in validation covering safety, naming, formatting, and memory
+- **Writing guidance** - TigerStyle rules applied as you write new Zig code
+- **Full analysis reports** - structured breakdown of aligned patterns, violations, and gray areas
+- **Quick violation checks** - fast pass to catch problems before commit
+- **Severity classification** - CRITICAL / MAJOR / MINOR for prioritized fixes
+- **Pre-submit checklist** - built-in validation covering safety, naming, formatting, and memory
 
 ## Usage
 
@@ -49,8 +49,8 @@ Produces a structured report:
 | Gray Areas | 1     |
 
 ### Aligned (What's Good)
-- `process_message():14` — precondition and postcondition assertions present
-- `init():5` — static allocation only, no stored allocator
+- `process_message():14` - precondition and postcondition assertions present
+- `init():5` - static allocation only, no stored allocator
 
 ### Violations
 
@@ -72,7 +72,7 @@ Produces a structured report:
 ### Gray Areas
 | Location | Concern | Notes |
 |----------|---------|-------|
-| `dispatch():55` | Stored Io | Lifetime-scoped and documented — may be justified |
+| `dispatch():55` | Stored Io | Lifetime-scoped and documented - may be justified |
 
 ### Recommendations
 1. Add precondition and postcondition assertions to `handle_request()`
@@ -178,7 +178,7 @@ See [`tiger-style/PERFORMANCE.md`](tiger-style/PERFORMANCE.md) for full rules wi
 | Struct order | Fields, then types, then methods |
 | No stored allocator/Io | Pass as parameters |
 | Off-by-one prevention | Distinguish `index`, `count`, `size` as conceptual types |
-| Explicit division | Use `@divExact`/`@divFloor`/`div_ceil` |
+| Explicit division | Use `@divExact`/`@divFloor`/`std.math.divCeil` |
 | Options struct | Use named struct when parameters share a type |
 | Large args by ref | Pass >16 byte arguments as `*const` |
 | Commit messages | Store rationale in git history, not PR descriptions |
