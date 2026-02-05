@@ -71,6 +71,42 @@ comptime {
 
 ## Control Flow
 
+### Every If Has an Else
+
+Handle both branches explicitly. Missing else branches are how "goto fail" bugs happen:
+
+```zig
+// GOOD: Both branches handled
+if (valid) {
+    process();
+} else {
+    report_error();
+}
+
+// BAD: Missing else — what happens when invalid?
+if (valid) {
+    process();
+}
+```
+
+### Braces on All Ifs
+
+Always use braces, even for single-statement bodies. Exception: single-line assertion implications (`if (a) assert(b);`).
+
+```zig
+// GOOD: Braces present
+if (ready) {
+    send();
+}
+
+// GOOD: Single-line assertion implication (exception)
+if (is_leader) assert(has_quorum);
+
+// BAD: No braces — invites "goto fail" mistakes
+if (ready)
+    send();
+```
+
 ### No Recursion
 
 Recursion makes bounding execution difficult. Use explicit loops:
@@ -227,6 +263,30 @@ fn handleMessage(msg: *Message) !void {
 - Parent functions handle branching
 - Helper functions handle iteration/logic
 - Keep leaf functions pure
+
+## External Events
+
+### Process at Your Own Pace
+
+Don't react directly to external events. Buffer and process them at the program's pace:
+
+```zig
+// GOOD: Buffer events, process in batches
+fn tick(self: *Self) void {
+    const events = self.poll_events();
+    for (events) |event| {
+        self.queue.push(event);
+    }
+    self.process_batch();
+}
+
+// BAD: React to each event immediately
+fn on_event(self: *Self, event: Event) void {
+    self.handle(event);  // Unbounded external control!
+}
+```
+
+This enables batching, maintains bounded work per tick, and keeps the program in control.
 
 ## Error Handling
 

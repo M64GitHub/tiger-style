@@ -159,6 +159,23 @@ Be explicit about what you want:
 @prefetch(ptr, .{});
 ```
 
+### No Buffer Bleeds
+
+A partially filled buffer with unzeroed padding leaks sensitive data and violates deterministic guarantees:
+
+```zig
+// GOOD: Zero the entire buffer, then fill
+var buffer: [BUFFER_SIZE]u8 = std.mem.zeroes(
+    [BUFFER_SIZE]u8,
+);
+@memcpy(buffer[0..data.len], data);
+
+// BAD: Unzeroed tail leaks previous contents
+var buffer: [BUFFER_SIZE]u8 = undefined;
+@memcpy(buffer[0..data.len], data);
+// buffer[data.len..] contains garbage!
+```
+
 ### Explicit Memory Layout
 
 ```zig

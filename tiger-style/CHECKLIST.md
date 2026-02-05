@@ -11,12 +11,14 @@ Quick validation before committing code.
 - [ ] **Errors handled**: No ignored errors (no `_ = x catch {}`)
 - [ ] **Explicit types**: Using u32/u64, not usize
 
-## Structure
+## Control Flow
 
 - [ ] **Function size**: Every function < 70 lines
 - [ ] **Simple control flow**: No complex compound conditions
 - [ ] **Split conditions**: Using nested if/else, not `if (a and b)`
 - [ ] **Positive invariants**: `if (valid)` not `if (!invalid)`
+- [ ] **Every if has else**: Both branches handled explicitly
+- [ ] **Braces on ifs**: No braceless if (except single-line assertions)
 
 ## Naming
 
@@ -37,11 +39,19 @@ Quick validation before committing code.
 - [ ] **Sentences**: Comments have capitals and periods
 - [ ] **Not obvious**: No comments on self-evident code
 
+## Bug Prevention
+
+- [ ] **Explicit division**: Using `@divExact`/`@divFloor`/`div_ceil`
+- [ ] **Off-by-one**: index vs count vs size distinguished
+- [ ] **Options struct**: Same-typed params use named struct
+- [ ] **Large args by ref**: >16 byte args passed as `*const`
+
 ## Memory
 
 - [ ] **No stored allocator**: Passed as parameter
 - [ ] **No stored Io**: Passed as parameter
 - [ ] **In-place init**: Large structs init via pointer
+- [ ] **No buffer bleeds**: Partially filled buffers zeroed
 
 ## Quick Severity Guide
 
@@ -54,6 +64,9 @@ Quick validation before committing code.
 | Function > 70 lines | MAJOR |
 | usize instead of u32 | MAJOR |
 | Stored allocator | MAJOR |
+| Missing else branch | MAJOR |
+| Buffer bleed | MAJOR |
+| Implicit division (/) | MINOR |
 | Wrong naming convention | MINOR |
 | Line > 80 chars | MINOR |
 | Missing units in name | MINOR |

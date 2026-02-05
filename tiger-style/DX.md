@@ -108,6 +108,19 @@ fn read_sector_validate() !void { ... }
 fn read_sector_process() !void { ... }
 ```
 
+### Semantic Naming Richness
+
+Use names that communicate purpose, not just type:
+
+```zig
+// GOOD: Names communicate lifetime and deinit behavior
+var gpa: Allocator = general_purpose.allocator();
+var arena: Allocator = arena_allocator.allocator();
+
+// BAD: Generic name hides important distinctions
+var allocator: Allocator = ...;
+```
+
 ### Callbacks Go Last
 
 ```zig
@@ -117,6 +130,14 @@ fn subscribe(
     options: Options,
     callback: *const fn(*Message) void,
 ) !void { ... }
+```
+
+### Return Type Preference
+
+Prefer simpler return types. Complexity in return types propagates virally through call chains:
+
+```
+void > bool > u64 > ?u64 > !u64
 ```
 
 ## Ordering
@@ -201,6 +222,66 @@ const offset = base_offset + header_size;
 const offset = base_offset + header_size; // accounts for header...
 ```
 
+## Bug Prevention
+
+### Off-By-One Prevention
+
+Treat `index`, `count`, and `size` as distinct conceptual types:
+
+```zig
+// index: 0-based position
+// count: number of items (index + 1)
+// size:  byte length (count * @sizeOf(T))
+
+const index: u32 = 5;
+const count: u32 = index + 1;        // 6 items
+const size: u64 = count * @sizeOf(Entry); // bytes
+```
+
+Always include units/qualifiers to prevent confusion.
+
+### Explicit Division
+
+Use Zig's explicit division builtins to show rounding intent:
+
+```zig
+// GOOD: Intent is clear
+const pages = @divExact(bytes, PAGE_SIZE);
+const blocks = div_ceil(bytes, BLOCK_SIZE);
+const index = @divFloor(offset, ENTRY_SIZE);
+
+// BAD: Rounding behavior is implicit
+const pages = bytes / PAGE_SIZE;
+```
+
+### Options Struct for Same-Typed Parameters
+
+When two or more parameters share a type, use a named struct to prevent argument swapping:
+
+```zig
+// GOOD: Named fields prevent swapping
+const Range = struct {
+    offset: u64,
+    length: u64,
+};
+fn read(range: Range) ![]u8 { ... }
+
+// BAD: Easy to swap offset and length
+fn read(offset: u64, length: u64) ![]u8 { ... }
+```
+
+### Pass Large Arguments by Reference
+
+Arguments larger than 16 bytes should pass as `*const` to prevent accidental stack copies:
+
+```zig
+// GOOD: No copy, catches accidental mutation
+fn validate(header: *const Header) bool { ... }
+
+// BAD: Copies 64+ byte struct onto stack
+fn validate(header: Header) bool { ... }
+```
+
 ## Memory Patterns
 
 ### Never Store Allocator or Io
@@ -235,6 +316,24 @@ try instance.init();
 // BAD: Returns copy
 pub fn init() !LargeStruct {
     return .{ .field = value };  // Copied on return
+}
+```
+
+### Group Allocation and Deallocation
+
+Use newlines to visually pair allocation with its `defer` deallocation. Makes leaks easy to spot:
+
+```zig
+// GOOD: Grouped pairs, leaks are visible
+fn init(allocator: Allocator) !Self {
+
+    const buffer = try allocator.alloc(u8, SIZE);
+    defer allocator.free(buffer);
+
+    const index = try allocator.alloc(u32, COUNT);
+    defer allocator.free(index);
+
+    // ...
 }
 ```
 
@@ -280,4 +379,21 @@ Scripts too:
 
 // BAD: scripts/build_docs.sh
 // Platform-specific, fragile
+```
+
+## Commit Messages
+
+### Rationale in Git History
+
+Store design rationale in commit messages, not PR descriptions. PR descriptions disappear from `git blame`; commit messages don't:
+
+```
+// GOOD: Commit message explains why
+"Use fixed-size ring buffer instead of growable list.
+Static allocation eliminates OOM during operation
+and bounds worst-case latency to buffer_size * cost."
+
+// BAD: Commit message states the obvious
+"Change list to ring buffer"
+// (The actual reasoning is buried in a PR comment)
 ```

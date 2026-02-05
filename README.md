@@ -101,6 +101,7 @@ your-project/
     skills/
       tiger-style/
         SKILL.md
+        REPORT_FORMAT.md
         SAFETY.md
         PERFORMANCE.md
         DX.md
@@ -138,11 +139,14 @@ Rules are organized by priority. When rules conflict, higher-priority rules win.
 | Pair assertions | Assert the same property from two different code paths |
 | No recursion | Use explicit loops with bounded iteration |
 | Bounded loops | Every loop must have an explicit upper bound |
+| Every if has else | Handle both branches explicitly |
+| Braces on ifs | Always use braces (except single-line assertions) |
 | Static memory | All allocation at init; no dynamic allocation during operation |
 | Error handling | Every error must be handled; `_ = x catch {}` is forbidden |
 | Explicit types | Use `u32`/`u64`, not `usize` |
 | Function size | Maximum 70 lines per function |
 | Control flow | Split compound conditions into nested if/else |
+| External events | Buffer and process at the program's own pace |
 
 See [`tiger-style/SAFETY.md`](tiger-style/SAFETY.md) for full rules with code examples.
 
@@ -156,6 +160,7 @@ See [`tiger-style/SAFETY.md`](tiger-style/SAFETY.md) for full rules with code ex
 | CPU predictability | Give the CPU large chunks of branch-free work |
 | Hot loop extraction | Standalone functions with primitive arguments |
 | Control/data plane | Separate setup paths from hot paths |
+| No buffer bleeds | Zero partially filled buffers to prevent data leaks |
 
 See [`tiger-style/PERFORMANCE.md`](tiger-style/PERFORMANCE.md) for full rules with code examples.
 
@@ -172,6 +177,11 @@ See [`tiger-style/PERFORMANCE.md`](tiger-style/PERFORMANCE.md) for full rules wi
 | Comments | Full sentences explaining *why*, not *what* |
 | Struct order | Fields, then types, then methods |
 | No stored allocator/Io | Pass as parameters |
+| Off-by-one prevention | Distinguish `index`, `count`, `size` as conceptual types |
+| Explicit division | Use `@divExact`/`@divFloor`/`div_ceil` |
+| Options struct | Use named struct when parameters share a type |
+| Large args by ref | Pass >16 byte arguments as `*const` |
+| Commit messages | Store rationale in git history, not PR descriptions |
 
 See [`tiger-style/DX.md`](tiger-style/DX.md) for full rules with code examples.
 
@@ -180,8 +190,8 @@ See [`tiger-style/DX.md`](tiger-style/DX.md) for full rules with code examples.
 | Severity | Criteria | Examples |
 |----------|----------|----------|
 | **CRITICAL** | Safety risk | Missing assertions, unbounded loops, dynamic allocation in hot path, ignored errors |
-| **MAJOR** | Maintainability risk | Function over 70 lines, `usize` instead of explicit type, stored allocator |
-| **MINOR** | Style deviation | Naming convention, line length, missing units in variable name |
+| **MAJOR** | Maintainability risk | Function over 70 lines, missing else branch, `usize` instead of explicit type, buffer bleeds |
+| **MINOR** | Style deviation | Naming convention, line length, implicit division, missing units in variable name |
 
 Fix CRITICAL violations immediately. Resolve MAJOR violations before merge. MINOR violations are worth fixing but should not block progress.
 
@@ -197,10 +207,11 @@ All other rules follow the [original TigerStyle guide](https://github.com/tigerb
 
 ```
 tiger-style/
-  SKILL.md           Skill definition: name, modes, report format
+  SKILL.md           Skill definition: modes, behavioral instructions
+  REPORT_FORMAT.md   Analysis report template (loaded on-demand)
   SAFETY.md          Assertions, control flow, memory, error handling
   PERFORMANCE.md     Design-time thinking, batching, CPU predictability
-  DX.md              Naming, formatting, ordering, memory patterns
+  DX.md              Naming, formatting, bug prevention, memory patterns
   CHECKLIST.md       Pre-submit checklist with severity guide
 ```
 
